@@ -4,34 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
-public class List extends AppCompatActivity {
+public class List extends AppCompatActivity implements View.OnLongClickListener {
 
     final String TAG = "List";
     Handler handler;
@@ -49,6 +31,27 @@ public class List extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+    }
+
+    //菜单操作
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.academy,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()==R.id.Account){
+            Intent toA = new Intent(this, AccountCom.class);
+            startActivity(toA);
+            Log.i(TAG, "onOptionsItemSelected: 打开会计学院");
+        }else if (item.getItemId()==R.id.BA){
+            Intent toB = new Intent(this, ForeignCom.class);
+            startActivity(toB);
+            Log.i(TAG, "onOptionsItemSelected: 打开工商管理学院");
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //打开界面
@@ -70,4 +73,10 @@ public class List extends AppCompatActivity {
         startActivity(toInfo);
     }
 
+    @Override
+    public boolean onLongClick(View btn) {
+
+        Log.i(TAG, "onLongClick: 长按");
+        return false;
+    }
 }

@@ -49,6 +49,7 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
     private String logDateF = "";
     private final String  DATE_SP_KEY = "lastInfoStr";
     List<String> resultList = new ArrayList<String>();
+    List<String> myInfo = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +152,7 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
                     size1 = lis.size();
                     size2 = herfs.size();
                     url = herfs.get(size2-2).attr( "abs:href" );
-                    for(int m = 46;m<size1-4;m++){
+                    for(int m = 43;m<size1-4;m++){
                         Element lii = lis.get(m);
                         //获取文字
                         Elements span = lii.getElementsByTag("a");
@@ -164,7 +165,7 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
                         //Log.i(TAG, "run: info:"+infoStr);
 
                         //获取超链接
-                        Element herfi = herfs.get(m);
+                        Element herfi = herfs.get(m+3);
                         String herfStr = herfi.attr( "abs:href" );
                         herfList.add(herfStr);
                         Log.i(TAG, "run: herf:"+herfStr);
@@ -259,14 +260,26 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
                 String toMy = (String)listView.getItemAtPosition(position);
                 Log.i(TAG, "onItemClick: 点击"+id);
                 int myInt = liList.indexOf(toMy) ;
-                Log.i(TAG, "onItemClick: "+toMy);
+                Log.i(TAG, "onItemClick:toMy="+toMy);
                 String myURL = herfList.get(myInt);
                 Log.i(TAG, "onItemClick: "+myURL);
-
                 InfoManager infoManager = new InfoManager(FinanceCom.this);
-                infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
-                Toast.makeText(FinanceCom.this,"已添加",Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
+
+                //获取MyCom中数据
+                for (InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+                    myInfo.add(item.getInfo());
+                    Log.i(TAG, "onClick: MyInfo:"+item.getInfo());
+                }
+                //判断是否存在
+
+                if (myInfo.indexOf(toMy) !=-1 ){
+                    Toast.makeText(FinanceCom.this,"不可重复添加",Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onClick: 阻止重复添加");
+                }else {
+                    infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
+                    Toast.makeText(FinanceCom.this,"已添加",Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
+                }
             }
         }).setNegativeButton("否",null);
         builder.create().show();

@@ -46,6 +46,7 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
     List<String> liList = new ArrayList<String>();
     List<String> herfList = new ArrayList<String>();
     List<String> resultList = new ArrayList<String>();
+    List<String> myInfo = new ArrayList<String>();
     private ProgressDialog progressDialog;
     private String logDate = "";
     private final String  DATE_SP_KEY = "lastInfoStr";
@@ -286,14 +287,26 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
                 String toMy = (String)listView.getItemAtPosition(position);
                 Log.i(TAG, "onItemClick: 点击"+id);
                 int myInt = liList.indexOf(toMy) ;
-                Log.i(TAG, "onItemClick: "+toMy);
+                Log.i(TAG, "onItemClick:toMy="+toMy);
                 String myURL = herfList.get(myInt);
                 Log.i(TAG, "onItemClick: "+myURL);
-
                 InfoManager infoManager = new InfoManager(InfoCom.this);
-                infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
-                Toast.makeText(InfoCom.this,"已添加",Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
+
+                //获取MyCom中数据
+                for (InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+                    myInfo.add(item.getInfo());
+                    Log.i(TAG, "onClick: MyInfo:"+item.getInfo());
+                }
+                //判断是否存在
+
+                if (myInfo.indexOf(toMy) !=-1 ){
+                    Toast.makeText(InfoCom.this,"不可重复添加",Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onClick: 阻止重复添加");
+                }else {
+                    infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
+                    Toast.makeText(InfoCom.this,"已添加",Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
+                }
             }
         }).setNegativeButton("否",null);
         builder.create().show();

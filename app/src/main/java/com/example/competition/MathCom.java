@@ -255,8 +255,8 @@ public class MathCom extends AppCompatActivity implements Runnable ,AdapterView.
 
                 //将数据加入tb_my
                 ListView listView = (ListView) findViewById(R.id.lv_comm);
-                String toMy = (String)listView.getItemAtPosition(position);
                 Log.i(TAG, "onItemClick: 点击"+id);
+                String toMy = (String)listView.getItemAtPosition(position);
                 int myInt = liList.indexOf(toMy) ;
                 Log.i(TAG, "onItemClick:toMy="+toMy);
                 String myURL = herfList.get(myInt);
@@ -278,7 +278,6 @@ public class MathCom extends AppCompatActivity implements Runnable ,AdapterView.
                         Toast.makeText(MathCom.this,"已添加",Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
                     }
-
             }
         }).setNegativeButton("否",null);
         builder.create().show();

@@ -16,4 +16,6 @@
     <string name="it">经济信息工程学院</string>
     <string name="inputKW">请输入关键词</string>
     <string name="search">搜索</string>
+    <string name="account">会计学院</string>
+    <string name="foreign">经贸外语学院</string>
 </resources>

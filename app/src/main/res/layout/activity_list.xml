@@ -47,7 +47,7 @@
             android:background="#5b5b5b"
             android:textColor="#ffffff"
             android:text="@string/finance"
-            android:onClick="openLFinance"/>
+            android:onClick="openLFinance" />
 
         <Button
             android:id="@+id/button5"

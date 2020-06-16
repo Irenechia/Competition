@@ -13,6 +13,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TB_NAME1 = "tb_finance";
     public static final String TB_NAME2 = "tb_info";
     public static final String TB_NAME3 = "tb_math";
+    public static final String TB_NAME4 = "tb_account";
+    public static final String TB_NAME5 = "tb_ba";
     public static final String TB_NAME = "tb_my";
 
     public DBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -28,6 +30,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+TB_NAME1+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
         db.execSQL("CREATE TABLE "+TB_NAME2+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
         db.execSQL("CREATE TABLE "+TB_NAME3+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
+        db.execSQL("CREATE TABLE "+TB_NAME4+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
+        db.execSQL("CREATE TABLE "+TB_NAME5+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
         db.execSQL("CREATE TABLE "+TB_NAME+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,CURINFORMATION TEXT,CURHERF TEXT)");
     }
 
