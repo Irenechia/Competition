@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void openMy(View btn){
+    public void openLogin(View btn){
         Log.i(TAG, "openOne:open ");
-        Intent toMy = new Intent(this,MyCom.class);
+        Intent toMy = new Intent(this,LoginActivity.class);
         startActivity(toMy);
     }
 }

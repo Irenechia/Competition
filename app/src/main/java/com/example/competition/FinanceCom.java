@@ -3,6 +3,7 @@ package com.example.competition;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -50,6 +51,7 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
     private final String  DATE_SP_KEY = "lastInfoStr";
     List<String> resultList = new ArrayList<String>();
     List<String> myInfo = new ArrayList<String>();
+    int tbNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
         SharedPreferences sp = getSharedPreferences("fi", Context.MODE_PRIVATE);
         logDateF = sp.getString(DATE_SP_KEY,"");
         Log.i(TAG, "lastInfoStr: "+logDateF);
+
+        SharedPreferences sptb = getSharedPreferences("TB", Activity.MODE_PRIVATE);
+        tbNum = sptb.getInt("TB_NUM",1);
 
         showProgressDialog("提示", "正在加载......");
 
@@ -266,7 +271,7 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
                 InfoManager infoManager = new InfoManager(FinanceCom.this);
 
                 //获取MyCom中数据
-                for (InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+                for (InfoItem item:infoManager.listAll("tb_c"+tbNum)){
                     myInfo.add(item.getInfo());
                     Log.i(TAG, "onClick: MyInfo:"+item.getInfo());
                 }
@@ -276,9 +281,9 @@ public class FinanceCom extends AppCompatActivity implements Runnable ,AdapterVi
                     Toast.makeText(FinanceCom.this,"不可重复添加",Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: 阻止重复添加");
                 }else {
-                    infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
+                    infoManager.add(new InfoItem(toMy,myURL),"tb_c"+tbNum);
                     Toast.makeText(FinanceCom.this,"已添加",Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
+                    Log.i(TAG, "onItemLongClick: 已添加到tb_c"+tbNum);
                 }
             }
         }).setNegativeButton("否",null);

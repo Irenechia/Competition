@@ -13,7 +13,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class List extends AppCompatActivity implements View.OnLongClickListener {
+public class List extends AppCompatActivity {
 
     final String TAG = "List";
     Handler handler;
@@ -73,10 +73,4 @@ public class List extends AppCompatActivity implements View.OnLongClickListener 
         startActivity(toInfo);
     }
 
-    @Override
-    public boolean onLongClick(View btn) {
-
-        Log.i(TAG, "onLongClick: 长按");
-        return false;
-    }
 }

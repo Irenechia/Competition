@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AccountCom"></activity>
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".AccountCom" />
         <activity android:name=".ForeignCom" />
         <activity android:name=".FinanceCom" />
         <activity android:name=".MathCom" />

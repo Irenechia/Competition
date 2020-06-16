@@ -2,6 +2,7 @@ package com.example.competition;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LauncherActivity;
 import android.content.Context;
@@ -28,8 +29,8 @@ public class MyCom extends AppCompatActivity implements AdapterView.OnItemClickL
     final String TAG = "MyCom";
     java.util.List<String> liList = new ArrayList<String>();
     java.util.List<String> herfList = new ArrayList<String>();
-    private SimpleAdapter listItemAdapter;
     ArrayAdapter adapter;
+    int tbNum;
 
 
     @Override
@@ -39,18 +40,28 @@ public class MyCom extends AppCompatActivity implements AdapterView.OnItemClickL
         ListView listView = findViewById(R.id.lv_detail);
         //listView.setEmptyView(findViewById(R.id.noData));
 
+        UserManager userManager = new UserManager(MyCom.this);
         adapter = new ArrayAdapter<String>(MyCom.this,android.R.layout.simple_list_item_1,liList);
         listView.setAdapter(adapter);
 
+
+        SharedPreferences sp = getSharedPreferences("TB", Activity.MODE_PRIVATE);
+        tbNum = sp.getInt("TB_NUM",1);
+        Log.i(TAG, "onCreate: tbnum:"+tbNum);
+
         InfoManager infoManager = new InfoManager(this);
-        for(InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+        liList.clear();
+        herfList.clear();
+
+        for (InfoItem item:infoManager.listAll("tb_c"+tbNum)){
             liList.add(item.getInfo());
             Log.i(TAG, "run: 已从数据库中获得info:"+item.getInfo());
             herfList.add(item.getHerf());
             Log.i(TAG, "run: 已从数据库中获得herf:"+item.getHerf());
         }
-        adapter.notifyDataSetChanged();
+        Log.i(TAG, "run: 已从数据库中获得数据");
 
+        listView.setAdapter(adapter);
 
 
         listView.setOnItemClickListener(this);
@@ -68,7 +79,7 @@ public class MyCom extends AppCompatActivity implements AdapterView.OnItemClickL
         InfoManager infoManager = new InfoManager(this);
         liList.clear();
         herfList.clear();
-        for (InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+        for (InfoItem item:infoManager.listAll("tb_c"+tbNum)){
             liList.add(item.getInfo());
             Log.i(TAG, "run: 已从数据库中获得info:"+item.getInfo());
             herfList.add(item.getHerf());
@@ -98,12 +109,12 @@ public class MyCom extends AppCompatActivity implements AdapterView.OnItemClickL
                 java.util.List<InfoItem> infoItemsList = new ArrayList<InfoItem>();
 
                 InfoManager infoManager = new InfoManager(MyCom.this);
-                infoManager.deleteAll(DBHelper.TB_NAME);
+                infoManager.deleteAll("tb_c"+tbNum);
                 for (int i = 0;i<liList.size();i++){
                     InfoItem curitem = new InfoItem(liList.get(i), herfList.get(i));
                     infoItemsList.add(curitem);
                 }
-                infoManager.addAll(infoItemsList,DBHelper.TB_NAME);
+                infoManager.addAll(infoItemsList,"tb_c"+tbNum);
 
                 Toast.makeText(MyCom.this,"已删除",Toast.LENGTH_SHORT).show();
 

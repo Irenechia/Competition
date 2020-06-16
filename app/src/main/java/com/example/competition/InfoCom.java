@@ -3,6 +3,7 @@ package com.example.competition;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -50,6 +51,7 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
     private ProgressDialog progressDialog;
     private String logDate = "";
     private final String  DATE_SP_KEY = "lastInfoStr";
+    int tbNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
         SharedPreferences sp = getSharedPreferences("Info", Context.MODE_PRIVATE);
         logDate = sp.getString(DATE_SP_KEY,"");
         Log.i(TAG, "lastInfoStr: "+logDate);
+
+        SharedPreferences sptb = getSharedPreferences("TB", Activity.MODE_PRIVATE);
+        tbNum = sptb.getInt("TB_NUM",1);
 
         showProgressDialog("提示","加载中...");
 
@@ -293,7 +298,7 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
                 InfoManager infoManager = new InfoManager(InfoCom.this);
 
                 //获取MyCom中数据
-                for (InfoItem item:infoManager.listAll(DBHelper.TB_NAME)){
+                for (InfoItem item:infoManager.listAll("tb_c"+tbNum)){
                     myInfo.add(item.getInfo());
                     Log.i(TAG, "onClick: MyInfo:"+item.getInfo());
                 }
@@ -303,7 +308,7 @@ public class InfoCom extends AppCompatActivity implements Runnable,AdapterView.O
                     Toast.makeText(InfoCom.this,"不可重复添加",Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onClick: 阻止重复添加");
                 }else {
-                    infoManager.add(new InfoItem(toMy,myURL),DBHelper.TB_NAME);
+                    infoManager.add(new InfoItem(toMy,myURL),"tb_c"+tbNum);
                     Toast.makeText(InfoCom.this,"已添加",Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "onItemLongClick: 已添加到TB_MY");
                 }
